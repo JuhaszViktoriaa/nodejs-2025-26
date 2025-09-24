@@ -1,0 +1,109 @@
+import express from "express";
+const PORT = 3000;
+const app = express();
+app.use(express.json());
+app.get("/", (req, res) => {
+  res.send("Szia!");
+});
+app.get("/hello", (req, res) => {
+  res.json({ message: "Welcome on my page." });
+});
+app.listen(PORT, () => {
+  console.log(`Server runs on port ${PORT}`);
+});
+----------------------------------------
+Magyarázat:
+
+import express from "express";
+használható a külső express modul a programunkban
+
+const PORT = 3000;
+A PORT változóban állítjuk be, hogy mely porot használja a szerverünk.
+
+const app = express();
+Az app változó a szerverünk, melyet az express() függvénnyel hozunk létre.
+
+app.use(express.json())
+JSON adatok fogadádáak és küldésének beállítása.
+
+app.listen(PORT, () => {
+  console.log(`Server runs on port ${PORT}`);
+});
+A PORT változóban meghatározott portot figyeli a szervet.
+A callback függvényben egy visszajeltést íratunk ki, hogy elindult a szerver.
+
+app.get("/", (req, res) => {
+  res.send("Szia!");
+});
+Adatot küldün a szerverről a megadott végpontra:
+
+"/" - a végpont elnevezése, ebben az esetben ez a gyökér (root), 
+Elérése: http://localhost:3000/
+Tartalma: Szia!
+
+"/hello" - a végpont elérése: http://localhost:3000/hello
+Tartalma: {"message":"Welcome on my page."}
+
+(req, res) => {} egy callback függvény a request (req) és a response (res) adatokka.
+A req tartalmazza a szerverre küldött adatokat.
+A res tartalmazza küldendő adatokat.
+
+res.send("Szia!"); A válaszban elküldjük a "Szia!" szöveget.
+res.json({message: "Welcome on my page."}); JSON formátumú adat küldése.
+
+////////////////////////////////////////////////////////////////////////////////////////////
+
+npm init
+létrehozza aprojektet, de ebben az esetben több kérdésre kell válaszolni
+
+npm init -y
+létrehozza a projektet és a package.json fájlban szerkeszthető a projekt
+
+
+package.json fájl beállítása:
+be kell szúrni:
+"type": "module",
+módosítja a JavaScript külsó moduljainak használatát (import).
+
+
+Küldő csomag telepítése:
+npm install csomagnev
+röviden:
+npm i csomagnev
+
+Példa:
+npm install express
+vagy 
+npm i express
+
+
+Meglévő csomag törlése:
+npm uninstall csomagnev
+
+Példa:
+npm uninstall express
+
+
+Külső csomag telepítése fejlesztő módban:
+npm install --save-dev csomagnev
+
+Példa:
+npm install --save-dev nodemon
+
+
+Program futtatásának beállítása:
+A package.json fájlban a "scripts"-et egészítsd ki:
+"start": "node app.js",
+"dev": "nodemon app.js"
+
+Figyelj, hogy az előző sor végén legyen vessző.
+
+Futtatni az app.js fájlt a terminálból az
+npm run start
+vagy 
+npm run dev
+parancsokkal lehet.
+A nodemon használatával a szerver mindig automatikusan újraindul, ha módosítod a kódot.
+
+A futó program leállítása:
+CRTL + C billentyűkombinációval lehet.
