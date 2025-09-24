@@ -1,9 +1,9 @@
 import express from 'express'
-const port = 3000
+const PORT = 3000
 const app = express()
 
-app.listen(port, () =>{
-    consolo.log('a szerver a ${port}. porton fut.')
+app.listen(PORT, () =>{
+    console.log('a szerver a ${PORT}. porton fut.')
 })
 
 app.use(express.json());
