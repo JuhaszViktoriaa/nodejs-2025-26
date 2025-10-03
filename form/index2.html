@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Felhasználói Adatok / c0juhvik</title>
+  <style>
+    body {
+      font-family:'Arial Narrow';
+      background-color: #79192e;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    input {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    button {
+      padding: 10px;
+      flex: 1;
+      background-color: black;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #2c0202;
+    }
+
+    #mentes{
+        background-color: darkgreen;
+    }
+
+    #torles{
+        background-color: red;
+    }
+
+    .output {
+      background-color: #f9f9f9;
+      padding: 15px;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+    }
+
+    .output div {
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Felhasználói Adatok</h2>
+
+    <div class="form-group">
+      <label for="nev">Név:</label>
+      <input type="text" id="nev">
+    </div>
+    <div class="form-group">
+      <label for="telepules">Település:</label>
+      <input type="text" id="telepules">
+    </div>
+    <div class="form-group">
+      <label for="irsz">Irányítószám:</label>
+      <input type="text" id="irsz">
+    </div>
+    <div class="form-group">
+      <label for="kozterulet">Közterület:</label>
+      <input type="text" id="kozterulet">
+    </div>
+    <div class="form-group">
+      <label for="hazszam">Házszám:</label>
+      <input type="text" id="hazszam">
+    </div>
+
+    <div class="buttons">
+      <button id="mentes" onclick="mentes()">Mentés</button>
+      <button id="torles" onclick="torles()">Adatok törlése</button>
+    </div>
+
+    <div class="output" id="megjelenites">
+    </div>
+  </div>
+
+  <script>
+    function mentes() {
+      const adatok = {
+        nev: document.getElementById("nev").value,
+        telepules: document.getElementById("telepules").value,
+        irsz: document.getElementById("irsz").value,
+        kozterulet: document.getElementById("kozterulet").value,
+        hazszam: document.getElementById("hazszam").value
+      };
+
+      localStorage.setItem("felhasznaloAdatok", JSON.stringify(adatok));
+      megjelenitAdatokat();
+    }
+
+    function torles() {
+      localStorage.removeItem("felhasznaloAdatok");
+      megjelenitAdatokat();
+    }
+
+    function megjelenitAdatokat() {
+      const hely = document.getElementById("megjelenites");
+      const adatok = JSON.parse(localStorage.getItem("felhasznaloAdatok"));
+
+      if (adatok) {
+        hely.innerHTML = `
+          <div><strong>Név:</strong> ${adatok.nev || "N/A"}</div>
+          <div><strong>Település:</strong> ${adatok.telepules || "N/A"}</div>
+          <div><strong>Irányítószám:</strong> ${adatok.irsz || "N/A"}</div>
+          <div><strong>Közterület:</strong> ${adatok.kozterulet || "N/A"}</div>
+          <div><strong>Házszám:</strong> ${adatok.hazszam || "N/A"}</div>
+        `;
+      } else {
+        hely.innerHTML = "<div>Nincs adat a local storage-ban.</div>";
+      }
+    }
+
+    window.onload = megjelenitAdatokat;
+  </script>
+
+</body>
+</html>

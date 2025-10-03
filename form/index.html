@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        #adatDisplay {
+            margin-top: 20px; padding: 10px; border: 1px solid #ccc; background-color: #f9f9f9; width: 300px;
+        }
+    </style>
+
+    <script>
+        const adat = { nev: " ", iranyitoszam: "", telepules: "", kozterulet: "", hazszam: "" }
+
+        document.getElementById("mentes").addEventListener("click", function () {
+            function saveDataToLocalStorage() {
+                adat.nev = document.getElementById("nev").value.trim();
+
+                adat.iranyitoszam = document.getElementById("iranyitoszam").value.trim();
+
+                adat.telepules = document.getElementById("telepules").value.trim();
+
+                adat.kozterulet = document.getElementById("kozterulet").value.trim();
+
+                adat.hazszam = document.getElementById("hazszam").value.trim();
+
+                console.log("Beküldött adatok: <br>", adat);
+                alert("Beküldött adatok elmentve!");
+
+                localStorage.setItem("adat", JSON.stringify(adat));
+                console.log("Beküldött adatok:", adat);
+                alert("Adatok elmentve!");
+
+                const adatDisplay = document.getElementById("adatDisplay");
+                    adatDisplay.innerHTML = `
+                    <h3>Beküldött Adatok:</h3>
+                    <p><strong>Név:</strong> ${parsedData.nev}</p>
+                    <p><strong>Irányítószám:</strong> ${parsedData.iranyitoszam}</p>
+                    <p><strong>Település:</strong> ${parsedData.telepules}</p>
+                    <p><strong>Közterület:</strong> ${parsedData.kozterulet}</p>
+                    <p><strong>Házszám:</strong> ${parsedData.hazszam}</p>
+                `;
+
+                window.onload = function() {
+                    displayData();
+                };
+            
+            document.getElementById("adatForm").reset();
+            }
+        });
+    </script>
+
+</head>
+<body>
+    <form id="adatForm">
+        <label for="nev">Név:</label>
+        <input type="text" id="nev" name="nev"><br><br>
+
+        <label for="iranyitoszam">Irányítószám:</label>
+        <input type="number" id="iranyitoszam" name="iranyitoszam"><br><br>
+
+        <label for="telepules">Település:</label>
+        <input type="text" id="telepules" name="telepules"><br><br>
+
+        <label for="kozterulet">Közterület:</label>
+        <input type="text" id="kozterulet" name="kozterulet"><br><br>
+
+        <label for="hazszam">Házszám:</label>
+        <input type="number" id="hazszam" name="hazszam"><br><br>
+
+        <button type="button" id="mentes">Mentés</button>
+    </form>
+</body>
+</html>

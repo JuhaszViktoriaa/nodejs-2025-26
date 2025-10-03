@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8" />
+  <title>Viccek API – Interaktív weboldal</title>
+  <style>
+    body{
+        font-family: 'Arial Narrow'; background: #f3ac27; color: grey; padding: 2rem;
+    }
+
+    .menu{margin-bottom: 1.5rem;
+    }
+    .menu label{ 
+        margin-right: 1rem;
+    }
+
+    .joke-box{background: #574f4f, 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); background: #f0f3f7;
+    }
+    .joke{margin: 0.5rem 0;
+    }
+    button{margin-top: 1rem; padding: 0.5rem 1rem; border: none; background: #245e51; color: white; border-radius: 4px; cursor: pointer;
+    }
+    button:hover{background: #04090e;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Viccek API / c0juhvik</h1>
+  <div class="menu">
+    <label><input type="radio" name="mode" value="random" checked>Véletlenszerű</label>
+    <label><input type="radio" name="mode" value="id">ID alapján: </label>
+    <input type="number" id="id-input" placeholder="Írd be az ID-t" min="1" style="width: 6rem;">
+    <label><input type="radio" name="mode" value="type">Típusa szerint:</label>
+    <select id="type-select">
+      <option value="programming">programozós</option>
+      <option value="general">általános</option>
+      <option value="knock-knock">kop-kopp</option>
+    </select>
+
+  </div>
+  <button id="get-joke">Viccet kerek</button>
+  <div id="joke-container" class="joke-box" style="display:none;">
+    <p id="setup" class="joke"></p>
+    <p id="punchline" class="joke" style="font-weight:bold;"></p>
+  </div>
+
+  <script>
+    const btn = document.getElementById('get-joke');
+    const container = document.getElementById('joke-container');
+    const setupEl = document.getElementById('setup');
+    const punchlineEl = document.getElementById('punchline');
+    const modeInputs = document.querySelectorAll('input[name="mode"]');
+
+    btn.addEventListener('click', () => {
+      let mode = document.querySelector('input[name="mode"]:checked').value;
+      let url;
+
+      if (mode === 'random') {
+        url = 'https://official-joke-api.appspot.com/jokes/random';
+      } else if (mode === 'id') {
+        const id = document.getElementById('id-input').value;
+        if (!id) { alert('Adj meg egy érvényes ID-t!'); return; }
+        url = `https://official-joke-api.appspot.com/jokes/${id}`;
+      } else {
+        const type = document.getElementById('type-select').value;
+        url = `https://official-joke-api.appspot.com/jokes/${type}/random`;
+      }
+
+      fetch(url)
+        .then(res => {
+          if (!res.ok) throw new Error('Hiba a vicc lekérésekor');
+          return res.json();
+        })
+        .then(data => {
+          let joke = Array.isArray(data) ? data[0] : data;
+          setupEl.textContent = joke.setup || joke.joke || '';
+          punchlineEl.textContent = joke.punchline || '';
+          container.style.display = 'block';
+        })
+
+        .catch(err => {
+          alert('Hiba: ' + err.message);
+        });
+    });
+  </script>
+</body>
+
+</html>
